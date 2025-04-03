@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Producto</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script>
+        function obtenerParametros() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: parseInt(params.get("id")),
+                nombre: params.get("nombre"),
+                precio: parseFloat(params.get("precio")),
+                img: params.get("img") ? decodeURIComponent(params.get("img")) : "imagen_por_defecto.jpg",
+                descripcion: params.get("descripcion") || "No hay descripción disponible."
+            };
+        }
+
+        function mostrarDetalles() {
+            const producto = obtenerParametros();
+            let imagenURL = producto.img.trim();
+
+            if (!imagenURL.startsWith("http")) {
+                imagenURL = `${window.location.origin}/${imagenURL}`;
+            }
+
+            const imgElement = document.getElementById("producto-img");
+            imgElement.src = imagenURL;
+            imgElement.onerror = function () {
+                this.onerror = null;
+                this.src = "imagen_por_defecto.jpg";
+            };
+
+            document.getElementById("producto-nombre").textContent = producto.nombre;
+            document.getElementById("producto-precio").textContent = `$${producto.precio}`;
+            document.getElementById("producto-descripcion").textContent = producto.descripcion;
+        }
+
+        function agregarAlCarritoDesdeDetalle() {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            const producto = obtenerParametros();
+
+            const index = carrito.findIndex(item => item.id === producto.id);
+            if (index !== -1) {
+                carrito[index].cantidad += 1;
+            } else {
+                producto.cantidad = 1;
+                carrito.push(producto);
+            }
+
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            alert("Producto agregado al carrito");
+        }
+
+        window.onload = () => {
+            mostrarDetalles();
+            document.querySelector(".agregar-carrito").addEventListener("click", agregarAlCarritoDesdeDetalle);
+        };
+    </script>
+</head>
+<body class="detalle-producto">
+    <header>
+        <button onclick="history.back()">← Atrás</button>
+        <h1>Detalle del Producto</h1>
+        <a href="pago_final.html" class="cart-btn">🛒</a>
+    </header>
+
+    <main>
+        <img id="producto-img" src="" alt="Producto">
+        <h2 id="producto-nombre"></h2>
+        <p id="producto-precio"></p>
+        <p id="producto-descripcion"></p>
+        <button class="agregar-carrito">Agregar al Carrito</button>
+    </main>
+</body>
+</html>

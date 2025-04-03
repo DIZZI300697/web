@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postres - Knoweats!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+    <script src="interaccion.js" defer></script>
+</head>
+<body>
+    <header class="bg-success text-white p-3 d-flex justify-content-between align-items-center">
+        <h1 class="m-0">Knoweats!</h1>
+        <a href="pago_final.html" class="cart-btn text-white fs-3">🛒</a>
+    </header>
+
+    <div class="d-flex">
+        <nav class="sidebar bg-dark text-white p-3">
+            <button class="toggle-btn btn btn-outline-light mb-3" onclick="toggleSidebar()">☰</button>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link text-white fw-bold">
+                        <i class="bi bi-house-door-fill me-2"></i>Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white fw-bold" onclick="toggleSubMenu(event)">
+                        <i class="bi bi-list-ul me-2"></i>Categorías
+                        <i class="bi bi-chevron-down float-end"></i>
+                    </a>
+                    <ul class="submenu list-unstyled ms-3">
+                        <li><a href="plato_principal.html" class="nav-link text-white">Platos Principales</a></li>
+                        <li><a href="postres.html" class="nav-link text-white">Postres</a></li>
+                        <li><a href="fotos.html" class="nav-link text-white">Fotos</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container-fluid p-4">
+            <h2 class="text-center mb-4">Deliciosos Postres</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="productos-container"></div>
+        </main>
+    </div>
+
+    <script>
+        let productos = [
+            { id: 13, nombre: "Arroz con leche de coco y pistacho", img: "imagenes/postre1.jpg", precio: 70, descripcion: "Leche de coco, azúcar, arroz, pistacho (FRUTOS SECOS DE CÁSCARA), jengibre, sal, canela, piel de limón." },
+            { id: 14, nombre: "Tarta de queso", img: "imagenes/postre2.jpg", precio: 75, descripcion: "Queso crema (LÁCTEO), azúcar, queso manchego (LÁCTEO), nata (LÁCTEO), huevo (HUEVO), almidón de maíz, harina de almendra (FRUTOS SECOS), mantequilla (LÁCTEO)." },
+            { id: 15, nombre: "Brownie de chocolate y frambuesa", img: "imagenes/postre3.jpg", precio: 60, descripcion: "Azúcar, mantequilla (LÁCTEO), huevo (HUEVO), chocolate, harina de trigo (GLUTEN), frambuesas." },
+            { id: 16, nombre: "brownie de chocolate y frutos rojos", img: "imagenes/postre4.jpg", precio: 65, descripcion: "Suave y esponjoso brownie de chocolate con un toque intenso de cacao, endulzado con azúcar y acompañado de frutos rojos como fresas, frambuesas y arándanos, que aportan frescura y equilibrio." },
+            { id: 17, nombre: "Lava de chocolate", img: "imagenes/postre5.jpg", precio: 80, descripcion: "Delicado pastel de chocolate con un exterior esponjoso y un corazón fundente de chocolate derretido, elaborado con mantequilla, huevos, azúcar y cacao para una experiencia irresistiblemente cremosa." }
+        ];
+
+        function mostrarProductos() {
+            let contenedor = document.getElementById("productos-container");
+            contenedor.innerHTML = productos.map(p => {
+                let imagenURL = p.img.startsWith("http") ? p.img : `${window.location.origin}/${p.img}`;
+                return `
+                <div class="col">
+                    <div class="card h-100 text-center">
+                        <a href="detalle_del_producto.html?id=${p.id}&nombre=${encodeURIComponent(p.nombre)}&precio=${p.precio}&img=${encodeURIComponent(imagenURL)}&descripcion=${encodeURIComponent(p.descripcion)}">
+                            <img src="${imagenURL}" class="card-img-top" alt="${p.nombre}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">${p.nombre}</h5>
+                            <p class="card-text">$${p.precio}</p>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSubMenu(event) {
+            event.preventDefault();
+            const submenu = event.target.nextElementSibling;
+            submenu.classList.toggle("d-none");
+        }
+
+        window.onload = mostrarProductos;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

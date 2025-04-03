@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotos - Knoweats!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+    <script src="interaccion.js" defer></script>
+    <style>
+        .imagenes-inicio img {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0.8;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .imagenes-inicio img:hover {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .card {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-success text-white p-3 d-flex justify-content-between align-items-center">
+        <h1 class="m-0">Knoweats!</h1>
+        <a href="pago_final.html" class="cart-btn text-white fs-3">🛒</a>
+    </header>
+
+    <div class="d-flex">
+        <nav class="sidebar bg-dark text-white p-3">
+            <button class="toggle-btn btn btn-outline-light mb-3" onclick="toggleSidebar()">☰</button>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link text-white fw-bold">
+                        <i class="bi bi-house-door-fill me-2"></i>Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white fw-bold" onclick="toggleSubMenu(event)">
+                        <i class="bi bi-list-ul me-2"></i>Categorías
+                        <i class="bi bi-chevron-down float-end"></i>
+                    </a>
+                    <ul class="submenu list-unstyled ms-3">
+                        <li><a href="plato_principal.html" class="nav-link text-white">Platos Principales</a></li>
+                        <li><a href="postres.html" class="nav-link text-white">Postres</a></li>
+                        <li><a href="fotos.html" class="nav-link text-white">Fotos</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container-fluid p-4">
+            <h2 class="text-center mb-4">Galería de Fotos</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4 imagenes-inicio" id="galeria-container"></div>
+        </main>
+    </div>
+
+    <script>
+        let fotos = [
+            { id: 18, src: "imagenes/foto1.jpg", alt: "Foto 1" },
+            { id: 19, src: "imagenes/foto2.jpg", alt: "Foto 2" },
+            { id: 20, src: "imagenes/foto3.jpg", alt: "Foto 3" },
+            { id: 21, src: "imagenes/foto4.jpg", alt: "Foto 4" },
+            { id: 22, src: "imagenes/foto5.jpg", alt: "Foto 5" },
+            { id: 23, src: "imagenes/foto6.jpg", alt: "Foto 6" }
+        ];
+
+        function mostrarGaleria() {
+            let contenedor = document.getElementById("galeria-container");
+            contenedor.innerHTML = fotos.map(foto => {
+                return `
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="${foto.src}" class="card-img-top" alt="${foto.alt}">
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSubMenu(event) {
+            event.preventDefault();
+            const submenu = event.target.nextElementSibling;
+            submenu.classList.toggle("d-none");
+        }
+
+        window.onload = mostrarGaleria;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

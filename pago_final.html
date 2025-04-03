@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Final</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+    <script defer>
+        document.addEventListener("DOMContentLoaded", function () {
+            mostrarCarrito();
+        });
+
+        function mostrarCarrito() {
+            const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            const listaCarrito = document.getElementById("lista-carrito");
+            const totalPrecio = document.getElementById("total-precio");
+            listaCarrito.innerHTML = "";
+            let total = 0;
+
+            carrito.forEach((producto) => {
+                let imagenURL = producto.img ? producto.img.trim() : "imagen_por_defecto.jpg";
+
+                if (!imagenURL.startsWith("http")) {
+                    imagenURL = `${window.location.origin}/${imagenURL}`;
+                }
+
+                const item = document.createElement("div");
+                item.classList.add("row", "align-items-center", "mb-3");
+                item.innerHTML = `
+                    <div class="col-2">
+                        <img src="${imagenURL}" alt="${producto.nombre}" class="img-fluid rounded" 
+                             onerror="this.onerror=null; this.src='imagen_por_defecto.jpg';">
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1 fw-bold">${producto.nombre}</p>
+                        <p class="mb-1">$${producto.precio.toFixed(2)} x ${producto.cantidad}</p>
+                        <p class="mb-1">Subtotal: $${(producto.precio * producto.cantidad).toFixed(2)}</p>
+                    </div>
+                    <div class="col-4 d-flex justify-content-end">
+                        <button class="btn btn-sm btn-success me-2" onclick="cambiarCantidad(${producto.id}, 1)">+</button>
+                        <button class="btn btn-sm btn-danger me-2" onclick="cambiarCantidad(${producto.id}, -1)">-</button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="eliminarProducto(${producto.id})">❌</button>
+                    </div>
+                `;
+                listaCarrito.appendChild(item);
+                total += producto.precio * producto.cantidad;
+            });
+
+            totalPrecio.textContent = `Total: $${total.toFixed(2)}`;
+
+            if (carrito.length === 0) {
+                totalContainer.classList.add("d-none");
+            } else {
+                totalContainer.classList.remove("d-none");
+            }
+        }
+
+        function cambiarCantidad(id, cambio) {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            const producto = carrito.find(item => item.id === id);
+            if (producto) {
+                producto.cantidad += cambio;
+                if (producto.cantidad <= 0) {
+                    carrito = carrito.filter(item => item.id !== id);
+                }
+                localStorage.setItem("carrito", JSON.stringify(carrito));
+                mostrarCarrito();
+            }
+        }
+
+        function eliminarProducto(id) {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            carrito = carrito.filter(item => item.id !== id);
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+
+        function finalizarCompra() {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            if (carrito.length === 0) {
+                alert("El carrito está vacío.");
+                return;
+            }
+            alert("¡Compra realizada con éxito!");
+            localStorage.removeItem("carrito");
+            location.reload();
+        }
+
+        function agregarAlCarrito(nombre, precio, img) {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            precio = parseFloat(precio);
+
+            let imagenURL = img.startsWith("http") ? img : `${window.location.origin}/${img}`;
+
+            const index = carrito.findIndex(item => item.nombre === nombre);
+            if (index !== -1) {
+                carrito[index].cantidad += 1;
+            } else {
+                carrito.push({ nombre, precio, img: imagenURL, cantidad: 1 });
+            }
+
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+
+            alert("Producto agregado al carrito");
+        }
+    </script>
+</head>
+<body>
+    <header class="bg-success text-white p-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-light" onclick="history.back()">← Volver</button>
+                <h1 class="h3 text-center w-100 mb-0">Pago Final</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <h2 class="mb-4 text-center">Carrito de Compras</h2>
+        <div id="lista-carrito" class="mb-4"></div>
+        <div id="total-container" class="d-flex justify-content-end align-items-center border-top pt-3">
+            <div class="ms-auto" style="max-width: 300px; text-align: right;">
+                <h3 id="total-precio" class="mb-2">Total: $0.00</h3>
+                <button class="btn btn-primary" onclick="finalizarCompra()">Finalizar Compra</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platos Principales - Knoweats!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+    <script src="interaccion.js" defer></script>
+</head>
+<body>
+    <header class="bg-success text-white p-3 d-flex justify-content-between align-items-center">
+        <h1 class="m-0">Knoweats!</h1>
+        <a href="pago_final.html" class="cart-btn text-white fs-3">🛒</a>
+    </header>
+
+    <div class="d-flex">
+        <nav class="sidebar bg-dark text-white p-3">
+            <button class="toggle-btn btn btn-outline-light mb-3" onclick="toggleSidebar()">☰</button>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link text-white fw-bold">
+                        <i class="bi bi-house-door-fill me-2"></i>Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white fw-bold" onclick="toggleSubMenu(event)">
+                        <i class="bi bi-list-ul me-2"></i>Categorías
+                        <i class="bi bi-chevron-down float-end"></i>
+                    </a>
+                    <ul class="submenu list-unstyled ms-3">
+                        <li><a href="plato_principal.html" class="nav-link text-white">Platos Principales</a></li>
+                        <li><a href="postres.html" class="nav-link text-white">Postres</a></li>
+                        <li><a href="fotos.html" class="nav-link text-white">Fotos</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container-fluid p-4">
+            <h2 class="text-center mb-4">Platos Principales</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="productos-container"></div>
+        </main>
+    </div>
+
+    <script>
+        let productos = [
+            { id: 7, nombre: "Ternera guisada con champiñones", img: "imagenes/principal1.jpg", precio: 180, descripcion: "Aguja de ternera, arroz, champiñón, zanahoria, cebolla, tomate frito casero, caldo de pollo (APIO), pasta de ajo, vino tinto (SULFITOS), aceite de oliva virgen, laurel, sal, pimienta, almidón de maíz." },
+            { id: 8, nombre: "Spaghettis cacio e pepe con guanciale", img: "imagenes/principal2.jpg", precio: 160, descripcion: "Pasta de trigo (GLUTEN), caldo de pollo (APIO), nata (LÁCTEOS), guanciale, queso parmesano (LÁCTEOS), cebolla, coñac, concentrado de carne (APIO, GLUTEN), pimienta verde en grano, pimienta negra molida, aceite de oliva virgen, almidón de maíz, sal." },
+            { id: 9, nombre: "Guiso de patata y alcachofa", img: "imagenes/principal3.jpg", precio: 150, descripcion: "Patata, alcachofa, pimiento rojo, habas, cebolla, picada de almendra (almendra (FRUTOS SECOS), pasta de ajo, sal, perejil, pan (GLUTEN)), tomate frito casero, caldo de verduras (APIO), aceite de oliva virgen, pulpa de pimiento choricero, almidón de maíz, sal. " },
+            { id: 10, nombre: "Arroz de presa y alcachofa", img: "imagenes/principal4.jpg", precio: 160, descripcion: "Caldo de pollo (APIO), arroz, presa de cerdo, cebolla, alcachofa, habas, salmorreta (ñora, ajo, tomate, jugo de limón), aceite de oliva virgen, sazonador paella (colorante (SOJA), harina de maíz, sal, pimienta negra, tomillo, romero, nuez moscada, clavo, pimentón dulce, azafrán), sal, romero." },
+            { id: 11, nombre: "Merluza con mojo verde", img: "imagenes/principal5.jpg", precio: 190, descripcion: "Merluza (PESCADO), mojo verde (nata (LACTEO), cilantro, ajo, vinagre de vino blanco (SULFITOS), comino, aceite de oliva virgen, sal), patatas, alcachofa, tomate cherry, ajo, sal, aceite de oliva virgen." },
+            { id: 12, nombre: "Salmón a la siciliana con patata, boniato, berenjena y calabacín", img: "imagenes/principal6.jpg", precio: 200, descripcion: "Salmón (PESCADO), calabacín, berenjena, patata, boniato, salsa siciliana (tomate cherry, cebolla, aceite de oliva virgen, coñac, tomate frito casero, caldo de pescado (PESCADO, CRUSTÁCEO, MOLUSCO, APIO), ajo, agua, pimienta, almidón de maíz, sal, albahaca), aceite de oliva virgen, ajo, hierbas provenzales, sal, pimienta." }
+        ];
+
+        function mostrarProductos() {
+            let contenedor = document.getElementById("productos-container");
+            contenedor.innerHTML = productos.map(p => {
+                let imagenURL = p.img.startsWith("http") ? p.img : `${window.location.origin}/${p.img}`;
+                return `
+                <div class="col">
+                    <div class="card h-100 text-center">
+                        <a href="detalle_del_producto.html?id=${p.id}&nombre=${encodeURIComponent(p.nombre)}&precio=${p.precio}&img=${encodeURIComponent(imagenURL)}&descripcion=${encodeURIComponent(p.descripcion)}">
+                            <img src="${imagenURL}" class="card-img-top" alt="${p.nombre}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">${p.nombre}</h5>
+                            <p class="card-text">$${p.precio}</p>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSubMenu(event) {
+            event.preventDefault();
+            const submenu = event.target.nextElementSibling;
+            submenu.classList.toggle("d-none");
+        }
+
+        window.onload = mostrarProductos;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
