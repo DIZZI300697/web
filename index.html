@@ -1,87 +1,87 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - Knoweats!</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="estilos.css">
-    <script src="interaccion.js" defer></script>
-</head>
-<body>
-    <header class="bg-success text-white p-3 d-flex justify-content-between align-items-center">
-        <h1 class="m-0">Knoweats!</h1>
-        <a href="pago_final.html" class="cart-btn text-white fs-3">🛒</a>
-    </header>
-
-    <div class="d-flex">
-        <nav class="sidebar bg-dark text-white p-3">
-            <button class="toggle-btn btn btn-outline-light mb-3" onclick="toggleSidebar()">☰</button>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link text-white fw-bold">
-                        <i class="bi bi-house-door-fill me-2"></i>Inicio
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white fw-bold" onclick="toggleSubMenu(event)">
-                        <i class="bi bi-list-ul me-2"></i>Categorías
-                        <i class="bi bi-chevron-down float-end"></i>
-                    </a>
-                    <ul class="submenu list-unstyled ms-3">
-                        <li><a href="plato_principal.html" class="nav-link text-white">Platos Principales</a></li>
-                        <li><a href="postres.html" class="nav-link text-white">Postres</a></li>
-                        <li><a href="fotos.html" class="nav-link text-white">Fotos</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-
-        <main class="container-fluid p-4">
-            <h2 class="text-center mb-4">Lo más buscado</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4" id="productos-container"></div>
-        </main>
-    </div>
-
-    <script>
-        let productos = [
-            { id: 1, nombre: "Meloso de ternera en salsa thai", img: "imagenes/producto1.jpg", precio: 187, descripcion: "Meloso de ternera con salsa thai y arroz." },
-            { id: 2, nombre: "Tagliatelle con salsa al funghi trufada", img: "imagenes/producto2.jpg", precio: 160, descripcion: "Pasta con salsa de champiñones trufada." },
-            { id: 3, nombre: "Pavo al chimichurri", img: "imagenes/producto3.jpg", precio: 163, descripcion: "Pechuga de pavo con chimichurri y guarnición." },
-            { id: 4, nombre: "Pollo en salsa roquefort", img: "imagenes/producto4.jpg", precio: 165, descripcion: "Pollo con salsa de queso roquefort y papas." },
-            { id: 5, nombre: "Risotto de gamba y tomate seco", img: "imagenes/producto5.jpg", precio: 155, descripcion: "Risotto con gambas y tomate seco." },
-            { id: 6, nombre: "Pastel de queso", img: "imagenes/producto6.jpg", precio: 80, descripcion: "Pastel de queso con un toque de vainilla." }
-        ];
-
-        function mostrarProductos() {
-            let contenedor = document.getElementById("productos-container");
-            contenedor.innerHTML = productos.map(p => {
-                return `
-                <div class="col">
-                    <div class="card h-100 text-center">
-                        <a href="detalle_del_producto.html?id=${p.id}&nombre=${encodeURIComponent(p.nombre)}&precio=${p.precio}&img=${p.img}&descripcion=${encodeURIComponent(p.descripcion)}">
-                            <!-- Aquí se muestra la imagen directamente como ruta relativa -->
-                            <img src="${p.img}" class="card-img-top" alt="${p.nombre}">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">${p.nombre}</h5>
-                            <p class="card-text">$${p.precio}</p>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        }
-
-        function toggleSubMenu(event) {
-            event.preventDefault();
-            const submenu = event.target.nextElementSibling;
-            submenu.classList.toggle("d-none");
-        }
-
-        window.onload = mostrarProductos;
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+ <html lang="es">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Inicio - Knoweats!</title>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+     <link rel="stylesheet" href="estilos.css">
+     <script src="interaccion.js" defer></script>
+ </head>
+ <body>
+     <header class="bg-success text-white p-3 d-flex justify-content-between align-items-center">
+         <h1 class="m-0">Knoweats!</h1>
+         <a href="pago_final.html" class="cart-btn text-white fs-3">🛒</a>
+     </header>
+ 
+     <div class="d-flex">
+         <nav class="sidebar bg-dark text-white p-3">
+             <button class="toggle-btn btn btn-outline-light mb-3" onclick="toggleSidebar()">☰</button>
+             <ul class="nav flex-column">
+                 <li class="nav-item">
+                     <a href="index.html" class="nav-link text-white fw-bold">
+                         <i class="bi bi-house-door-fill me-2"></i>Inicio
+                     </a>
+                 </li>
+                 <li class="nav-item">
+                     <a href="#" class="nav-link text-white fw-bold" onclick="toggleSubMenu(event)">
+                         <i class="bi bi-list-ul me-2"></i>Categorías
+                         <i class="bi bi-chevron-down float-end"></i>
+                     </a>
+                     <ul class="submenu list-unstyled ms-3">
+                         <li><a href="plato_principal.html" class="nav-link text-white">Platos Principales</a></li>
+                         <li><a href="postres.html" class="nav-link text-white">Postres</a></li>
+                         <li><a href="fotos.html" class="nav-link text-white">Fotos</a></li>
+                     </ul>
+                 </li>
+             </ul>
+         </nav>
+ 
+         <main class="container-fluid p-4">
+             <h2 class="text-center mb-4">Lo más buscado</h2>
+             <div class="row row-cols-1 row-cols-md-3 g-4" id="productos-container"></div>
+         </main>
+     </div>
+ 
+     <script>
+         let productos = [
+             { id: 1, nombre: "Meloso de ternera en salsa thai", img: "web/imagenes/producto1.jpg", precio: 187, descripcion: "Meloso de ternera con salsa thai y arroz." },
+             { id: 2, nombre: "Tagliatelle con salsa al funghi trufada", img: "web/imagenes/producto2.jpg", precio: 160, descripcion: "Pasta con salsa de champiñones trufada." },
+             { id: 3, nombre: "Pavo al chimichurri", img: "web/imagenes/producto3.jpg", precio: 163, descripcion: "Pechuga de pavo con chimichurri y guarnición." },
+             { id: 4, nombre: "Pollo en salsa roquefort", img: "web/imagenes/producto4.jpg", precio: 165, descripcion: "Pollo con salsa de queso roquefort y papas." },
+             { id: 5, nombre: "Risotto de gamba y tomate seco", img: "web/imagenes/producto5.jpg", precio: 155, descripcion: "Risotto con gambas y tomate seco." },
+             { id: 6, nombre: "Pastel de queso", img: "web/imagenes/producto6.jpg", precio: 80, descripcion: "Pastel de queso con un toque de vainilla." }
+         ];
+ 
+         function mostrarProductos() {
+             let contenedor = document.getElementById("productos-container");
+             contenedor.innerHTML = productos.map(p => {
+                 let imagenURL = p.img.startsWith("http") ? p.img : `${window.location.origin}/${p.img}`;
+                 return `
+                 <div class="col">
+                     <div class="card h-100 text-center">
+                         <a href="detalle_del_producto.html?id=${p.id}&nombre=${encodeURIComponent(p.nombre)}&precio=${p.precio}&img=${encodeURIComponent(imagenURL)}&descripcion=${encodeURIComponent(p.descripcion)}">
+                             <img src="${imagenURL}" class="card-img-top" alt="${p.nombre}">
+                         </a>
+                         <div class="card-body">
+                             <h5 class="card-title">${p.nombre}</h5>
+                             <p class="card-text">$${p.precio}</p>
+                         </div>
+                     </div>
+                 </div>
+                 `;
+             }).join('');
+         }
+ 
+         function toggleSubMenu(event) {
+             event.preventDefault();
+             const submenu = event.target.nextElementSibling;
+             submenu.classList.toggle("d-none");
+         }
+ 
+         window.onload = mostrarProductos;
+     </script>
+ 
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ </body>
+ </html>
